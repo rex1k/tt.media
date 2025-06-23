@@ -40,6 +40,7 @@ $arComponentParameters = [
                 'N',
             ],
             'PARENT' => 'SETTINGS',
+            'DEFAULT' => 'Y',
         ],
         'showOnPage' => [
             'NAME' => 'Количество на странице',
