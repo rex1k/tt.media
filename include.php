@@ -1,3 +1,8 @@
 <?php
 
-require $_SERVER['DOCUMENT_ROOT'] . '/local/modules/tt.media/vendor/autoload.php';
+use Bitrix\Main\Loader;
+
+Loader::registerAutoLoadClasses(
+    'tt.media',
+    ['TTMedia\Table\CurrenciesTable' => 'lib/Table/CurrenciesTable.php']
+);
