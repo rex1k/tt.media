@@ -47,15 +47,19 @@ class CurrencyListComponent extends CBitrixComponent
 
     private function getElements(): array
     {
+        $params = [
+            'filter' => $this->arParams['filter'] ?? [],
+            'limit' => $this->arParams['showOnPage'] ?? 10,
+            'offset' => ($this->arParams['showOnPage'] ?? 10) * ((int)$this->arParams['page'] - 1),
+            'order' => [$this->arParams['sort'] => 'asc']
+        ];
 
-        $result = CurrenciesTable::getList(
-            [
-                'filter' => $this->arParams['filter'] ?? [],
-                'limit' => $this->arParams['showOnPage'] ?? 10,
-                'offset' => ($this->arParams['showOnPage'] ?? 10) * ((int)$this->arParams['page'] - 1),
-                'order' => [$this->arParams['sort'] => 'asc']
-            ]
-        )->fetchAll();
+        if ($this->arParams['usePageNavigation'] !== 'Y') {
+            unset($params['limit']);
+            unset($params['offset']);
+        }
+
+        $result = CurrenciesTable::getList($params)->fetchAll();
 
         if (!empty($result)) {
             $result = array_column($result, null, 'id');
