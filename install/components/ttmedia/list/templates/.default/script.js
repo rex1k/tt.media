@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const url = new URL(window.location.href);
 
     for (let element of sortElements) {
-        console.log(element)
         element.addEventListener('click', function () {
             url.searchParams.set('sort', element.dataset.sort);
+            url.searchParams.set('order', element.dataset.order);
             window.location.href = url.toString();
         })
     }

@@ -23,6 +23,7 @@ class CurrencyListComponent extends CBitrixComponent
 
         $arParams['page'] = $this->request->getQuery('page') ?? 1;
         $arParams['sort'] = $this->request->getQuery('sort') ?? 'id';
+        $arParams['order'] = $this->request->getQuery('order') ?? 'ASC';
 
         return parent::onPrepareComponentParams($arParams);
     }
@@ -33,9 +34,9 @@ class CurrencyListComponent extends CBitrixComponent
         $this->arResult['pages'] = 1;
 
         if ($this->arResult['count'] > (int)$this->arParams['showOnPage']) {
-            (int)$this->arResult['pages'] = $this->arResult['count'] / (int)$this->arParams['showOnPage'];
+            (int)$this->arResult['pages'] = $this->arResult['count'] / ($this->arParams['showOnPage'] ?: 10);
 
-            if (($this->arResult['count'] % (int)$this->arParams['showOnPage']) > 0) {
+            if (($this->arResult['count'] % ((int)$this->arParams['showOnPage'] ?: 10)) > 0) {
                 $this->arResult['pages'] += 1;
             }
         }
@@ -51,7 +52,7 @@ class CurrencyListComponent extends CBitrixComponent
             'filter' => $this->arParams['filter'] ?? [],
             'limit' => $this->arParams['showOnPage'] ?? 10,
             'offset' => ($this->arParams['showOnPage'] ?? 10) * ((int)$this->arParams['page'] - 1),
-            'order' => [$this->arParams['sort'] => 'asc']
+            'order' => [$this->arParams['sort'] => $this->arParams['order']]
         ];
 
         if ($this->arParams['usePageNavigation'] !== 'Y') {
